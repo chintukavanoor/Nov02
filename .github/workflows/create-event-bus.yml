@@ -20,10 +20,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 # Replace with your desired AWS region
 
-      - name: Deploy Event Bus
+            - name: Deploy Event Bus
         run: |
           aws cloudformation deploy \
             --template-file testing14.yml \
             --stack-name event-bus-stack \
+            --capabilities CAPABILITY_NAMED_IAM \
             --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
-            --capabilities CAPABILITY_NAMED_IAM
+
