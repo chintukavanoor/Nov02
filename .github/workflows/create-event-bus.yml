@@ -23,7 +23,7 @@ jobs:
       - name: Deploy Event Bus
         run: |
           aws cloudformation deploy \
-            --template-file event-bus-template.yaml \
+            --template-file testing14.yml \
             --stack-name event-bus-stack \
             --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
             --capabilities CAPABILITY_NAMED_IAM
