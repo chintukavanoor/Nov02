@@ -1,37 +1,29 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   Environment:
     Type: String
     Description: Specify the environment (stg, dev, prd)
-  EventSourceName: 
+  EventSourceName:
     Type: String
     Description: Specify the EventSourceName
 Resources:
   RightslinestagingEventBus:
-    Type: 'AWS::Events::EventBus'
+    Type: AWS::Events::EventBus
     Properties:
-      EventSourceName:
-        Ref: EventSourceName
-      Name:
-        Ref: EventSourceName
+      EventSourceName: !Ref EventSourceName
+      Name: !Ref EventSourceName
   RightslinestagingRule:
-    Type: 'AWS::Events::Rule'
+    Type: AWS::Events::Rule
     Properties:
-      Name: 'wb-rule-uk-poc-useast-Rightslinestaging-events'
-      EventBusName:
-        Ref: RightslinestagingEventBus
+      Name: "wb-rule-uk-poc-useast-Rightslinestaging-events"
+      EventBusName: !Ref RightslinestagingEventBus
       EventPattern:
         source:
-          - prefix: 'aws.partner/Rightslinestaging.com'
+          - prefix: "aws.partner/Rightslinestaging.com"
       Targets:
-        -
-          Arn:
-            Fn::GetAtt:
-              - 'RightslinestagingLogGroup'
-              - Arn
-          Id: RightslinestagingTarget
+        - Arn: !GetAtt RightslinestagingLogGroup.Arn
+          Id: "RightslinestagingTarget"
   RightslinestagingLogGroup:
-    Type: 'AWS::Logs::LogGroup'
+    Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName:
-        Fn::Sub: '/aws/events/${RightslinestagingEventBus}'
+      LogGroupName: !Sub "/aws/events/${RightslinestagingEventBus}"
