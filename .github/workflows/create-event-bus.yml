@@ -45,4 +45,4 @@ jobs:
             --template-file testing14.yml \
             --stack-name event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=MyCustomEventBus EventSourceName=${{ steps.select-event-source.outputs.EventSourceName }}
+            --parameter-overrides Environment=${{ steps.read-env.outputs.Environment }} EventBusName=MyCustomEventBus EventSourceName=${{ steps.select-event-source.outputs.EventSourceName }}
