@@ -1,0 +1,5 @@
+{
+  "stg": "aws.partner/rightsline.com/stg-div191-v4",
+  "dev": "aws.partner/rightsline.com/dev-div191-v4",
+  "prd": "aws.partner/rightsline.com/prd-div191-v4"
+}
