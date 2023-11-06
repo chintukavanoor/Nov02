@@ -1,8 +1,61 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: Create an Amazon EventBridge (CloudWatch Events) event bus
-
-Resources:
-  MyEventBus:
-    Type: AWS::Events::EventBus
-    Properties:
-      Name: MyCustomEventBus # Replace with your desired event bus name
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "Environment": {
+      "Type": "String",
+      "Description": "Specify the environment (stg, dev, prd)"
+    },
+    "EventSourceName": {
+      "Type": "String",
+      "Description": "Specify the EventSourceName"
+    }
+  },
+  "Resources": {
+    "RightslinestagingEventBus": {
+      "Type": "AWS::Events::EventBus",
+      "Properties": {
+        "EventSourceName": {
+          "Ref": "EventSourceName"
+        },
+        "Name": {
+          "Ref": "EventSourceName"
+        }
+      }
+    },
+    "RightslinestagingRule": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Name": "wb-rule-uk-poc-useast-Rightslinestaging-events",
+        "EventBusName": {
+          "Ref": "RightslinestagingEventBus"
+        },
+        "EventPattern": {
+          "source": [
+            {
+              "prefix": "aws.partner/Rightslinestaging.com"
+            }
+          ]
+        },
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "RightslinestagingLogGroup",
+                "Arn"
+              ]
+            },
+            "Id": "RightslinestagingTarget"
+          }
+        }
+      }
+    },
+    "RightslinestagingLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "/aws/events/${RightslinestagingEventBus}"
+        }
+      }
+    }
+  }
+}
