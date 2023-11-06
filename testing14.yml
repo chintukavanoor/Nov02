@@ -3,7 +3,7 @@ Parameters:
   Environment:
     Type: String
     Description: Specify the environment (stg, dev, prd)
-  EventSourceName:
+  EventSourceName: 
     Type: String
     Description: Specify the EventSourceName
 Resources:
