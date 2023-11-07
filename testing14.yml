@@ -9,7 +9,7 @@
     }
   },
   "Resources": {
-    "RightslinestagingEventBus": {
+    "RightslineEventBus": {
       "Type": "AWS::Events::EventBus",
       "Properties": {
         "EventSourceName": {
@@ -20,12 +20,12 @@
         }
       }
     },
-    "RightslinestagingRule": {
+    "RightslineRule": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "Name": "wb-rule-uk-poc-useast-Rightslinestaging-events",
+        "Name": "wb-rule-uk-poc-useast-Rightsline-events",
         "EventBusName": {
-          "Ref": "RightslinestagingEventBus"
+          "Ref": "RightslineEventBus"
         },
         "EventPattern": {
           "source": [
@@ -38,20 +38,20 @@
           {
             "Arn": {
               "Fn::GetAtt": [
-                "RightslinestagingLogGroup",
+                "RightslineLogGroup",
                 "Arn"
               ]
             },
-            "Id": "RightslinestagingTarget"
+            "Id": "RightslineTarget"
           }
         ]
       }
     },
-    "RightslinestagingLogGroup": {
+    "RightslineLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
         "LogGroupName": {
-          "Fn::Sub": "/aws/events/${Environment}"
+          "Fn::Sub": "/aws/events/${RightslineEventBus}"
         }
       }
     }
