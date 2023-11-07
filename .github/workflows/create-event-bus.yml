@@ -1,7 +1,7 @@
 name: Create EventBridge Event Bus
 
 on:
-  pull_request: 
+  pull_request:
     branches:
       - main
       - develop
@@ -13,6 +13,9 @@ on:
 jobs:
   create-event-bus:
     runs-on: ubuntu-latest
+
+    env:
+      EVENT_BUS_NAME: MyCustomEventBus # Replace with your desired event bus name
 
     steps:
       - name: Checkout code
@@ -31,4 +34,4 @@ jobs:
             --template-file testing14.yml \
             --stack-name rightsline-staging-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
+            --parameter-overrides EventBusName=$EVENT_BUS_NAME
