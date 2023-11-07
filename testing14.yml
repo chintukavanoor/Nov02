@@ -3,9 +3,9 @@
   "Parameters": {
     "Environment": {
       "Type": "String",
-      "Default": "dev", 
+      "Description": "Select the environment (stg, dev, prd)",
       "AllowedValues": ["stg", "dev", "prd"],
-      "Description": "Select the environment (stg, dev, prd)"
+      "Default": "stg"
     }
   },
   "Resources": {
@@ -30,16 +30,17 @@
         "EventPattern": {
           "source": [
             {
-              "prefix": {
-                "Fn::Sub": "aws.partner/Rightslinestaging.com"
-              }
+              "Fn::Sub": "aws.partner/Rightsline.${Environment}.com"
             }
           ]
         },
         "Targets": [
           {
             "Arn": {
-              "Fn::GetAtt": ["RightslinestagingLogGroup", "Arn"]
+              "Fn::GetAtt": [
+                "RightslinestagingLogGroup",
+                "Arn"
+              ]
             },
             "Id": "RightslinestagingTarget"
           }
@@ -50,7 +51,7 @@
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
         "LogGroupName": {
-          "Fn::Sub": "/aws/events/${RightslinestagingEventBus}"
+          "Fn::Sub": "/aws/events/${Environment}"
         }
       }
     }
