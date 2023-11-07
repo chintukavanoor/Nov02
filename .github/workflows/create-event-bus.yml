@@ -22,12 +22,12 @@ jobs:
         run: |
           environment="${{ secrets.AWS_ENVIRONMENT }}"  # Get the environment from the secret
 
-          if [ "$environment" == ’stg’ ]; then
+          if [ "$environment" == 'stg' ]; then
             echo "Setting up AWS credentials for STG environment"
             aws_access_key_id="${{ secrets.AWS_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
-          elif [ "$environment" == ‘prd’]; then
+          elif [ "$environment" == 'prd']; then
             echo "Setting up AWS credentials for PRD environment"
             aws_access_key_id="${{ secrets.AWS_PRD_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_PRD_SECRET_ACCESS_KEY }}"
