@@ -19,3 +19,4 @@ Resources:
   RightslineLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
+      LogGroupName: !Sub /aws/events/${RightslineEventBus}
