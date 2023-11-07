@@ -4,8 +4,8 @@ Resources:
   RightslineEventBus:   
     Type: AWS::Events::EventBus
     Properties:
-      EventSourceName: !Sub aws.partner/rightsline.com/${Environment_details}-div191-v4
-      Name: !Sub aws.partner/rightsline.com/${Environment_details}-div191-v4
+      EventSourceName: aws.partner/rightsline.com/prd-div191-v4
+      Name: aws.partner/rightsline.com/prd-div191-v4
   RightslineRule:
     Type: AWS::Events::Rule
     Properties:
@@ -13,11 +13,11 @@ Resources:
       EventBusName: !Ref RightslineEventBus
       EventPattern:
         source:
-          - !Sub aws.partner/Rightsline.${Environment_details}.com
+          - !Sub aws.partner/Rightsline.com
       Targets:
         - Arn: !GetAtt RightslineLogGroup.Arn
           Id: RightslineTarget
   RightslineLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /aws/events/${Environment_details}
+      LogGroupName: !Sub /aws/events/RightslineEventBus
