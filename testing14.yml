@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Resources: 
   RightslineEventBus:    
     Type: AWS::Events::EventBus
-    Properties:
+    Properties: 
       EventSourceName: aws.partner/rightsline.com/stg-div191-v4
       Name: aws.partner/rightsline.com/stg-div191-v4
   RightslineRule:
