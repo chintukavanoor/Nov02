@@ -27,7 +27,7 @@ jobs:
 
       - name: Set Environment Variable
         run: |
-          echo "{\"Environment\":\"stg\"}" > parameters.json # Set the environment to 'stg', 'dev', or 'prd'
+          echo "{\"Environment\":\"dev\"}" > parameters.json # Set the environment to 'stg', 'dev', or 'prd'
         shell: bash
 
       - name: Deploy Event Bus
