@@ -23,12 +23,12 @@ jobs:
           current_branch=$(git branch --show-current)
           echo "Current branch is $current_branch"
 
-          if [current_branch == 'main']; then
+          if [$current_branch == 'main']; then
             echo "Setting up AWS credentials for PRD environment"
             aws_access_key_id="${{ secrets.AWS_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
-          elif [current_branch == 'development']; then
+          elif [$current_branch == 'development']; then
             echo "Setting up AWS credentials for DEV environment"
             aws_access_key_id="${{ secrets.AWS_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
