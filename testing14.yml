@@ -1,59 +1,31 @@
-{
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Parameters": {
-    "Environment": {
-      "Type": "String",
-      "Description": "Select the environment (stg, dev, prd)",
-      "AllowedValues": ["stg", "dev", "prd"],
-      "Default": "dev"
-    }
-  },
-  "Resources": {
-    "RightslineEventBus": {
-      "Type": "AWS::Events::EventBus",
-      "Properties": {
-        "EventSourceName": {
-          "Fn::Sub": "aws.partner/rightsline.com/${Environment}-div191-v4"
-        },
-        "Name": {
-          "Fn::Sub": "aws.partner/rightsline.com/${Environment}-div191-v4"
-        }
-      }
-    },
-    "RightslineRule": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "Name": "wb-rule-uk-poc-useast-Rightsline-events",
-        "EventBusName": {
-          "Ref": "RightslineEventBus"
-        },
-        "EventPattern": {
-          "source": [
-            {
-              "Fn::Sub": "aws.partner/Rightsline.${Environment}.com"
-            }
-          ]
-        },
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "RightslineLogGroup",
-                "Arn"
-              ]
-            },
-            "Id": "RightslineTarget"
-          }
-        ]
-      }
-    },
-    "RightslineLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Sub": "/aws/events/${RightslineEventBus}"
-        }
-      }
-    }
-  }
-}
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Environment:
+    Type: String
+    Description: Select the environment (stg, dev, prd)
+    AllowedValues:
+      - stg
+      - dev
+      - prd
+    Default: dev
+Resources:
+  RightslineEventBus:
+    Type: AWS::Events::EventBus
+    Properties:
+      EventSourceName: !Sub aws.partner/rightsline.com/${Environment}-div191-v4
+      Name: !Sub aws.partner/rightsline.com/${Environment}-div191-v4
+  RightslineRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: wb-rule-uk-poc-useast-Rightsline-events
+      EventBusName: !Ref RightslineEventBus
+      EventPattern:
+        source:
+          - !Sub aws.partner/Rightsline.${Environment}.com
+      Targets:
+        - Arn: !GetAtt RightslineLogGroup.Arn
+          Id: RightslineTarget
+  RightslineLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/events/${RightslineEventBus}
