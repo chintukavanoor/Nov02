@@ -18,11 +18,31 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 # Replace with your desired AWS region
+        id: aws-config
+        run: |
+          environment="${{ secrets.AWS_ENVIRONMENT }}"  # Get the environment from the secret
+
+          if [ "$environment" == ’stg’ ]; then
+            echo "Setting up AWS credentials for STG environment"
+            aws_access_key_id="${{ secrets.AWS_ACCESS_KEY_ID }}"
+            aws_secret_access_key="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
+          elif [ "$environment" == ‘prd’]; then
+            echo "Setting up AWS credentials for PRD environment"
+            aws_access_key_id="${{ secrets.AWS_PRD_ACCESS_KEY_ID }}"
+            aws_secret_access_key="${{ secrets.AWS_PRD_SECRET_ACCESS_KEY }}"
+
+          else
+            echo "Setting up AWS credentials for DEV environment"
+            aws_access_key_id="${{ secrets.AWS_DEV_ACCESS_KEY_ID }}"
+            aws_secret_access_key="${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}"
+
+          fi
+          echo "AWS_ACCESS_KEY_ID=$aws_access_key_id" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=$aws_secret_access_key" >> $GITHUB_ENV
+          aws configure set aws_access_key_id $aws_access_key_id
+          aws configure set aws_secret_access_key $aws_secret_access_key
+          aws configure set default.region us-east-1 # Replace with your desired AWS region
 
       - name: Deploy Event Bus
         run: |
@@ -30,4 +50,4 @@ jobs:
             --template-file testing14.yml \
             --stack-name rightsline-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=MyCustomEventBus Environment_details=$ENVIRONMENT
+            --parameter-overrides EventBusName=MyCustomEventBus Environment_details=$environment
