@@ -49,4 +49,4 @@ jobs:
             --template-file testing14.yml \
             --stack-name rightsline-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=MyCustomEventBus Environment_details=$environment
+            --parameter-overrides EventBusName=Rightslineeventbus Environment_details=$environment
