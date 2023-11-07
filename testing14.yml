@@ -1,19 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Parameters:
-  Environment:
-    Type: String
-    Description: Select the environment (stg, dev, prd)
-    AllowedValues:
-      - stg
-      - dev
-      - prd
-    Default: stg
+
 Resources:
   RightslineEventBus:
     Type: AWS::Events::EventBus
     Properties:
-      EventSourceName: !Sub aws.partner/rightsline.com/${Environment}-div191-v4
-      Name: !Sub aws.partner/rightsline.com/${Environment}-div191-v4
+      EventSourceName: !Sub aws.partner/rightsline.com/${Environment_details}-div191-v4
+      Name: !Sub aws.partner/rightsline.com/${Environment_details}-div191-v4
   RightslineRule:
     Type: AWS::Events::Rule
     Properties:
@@ -21,11 +13,11 @@ Resources:
       EventBusName: !Ref RightslineEventBus
       EventPattern:
         source:
-          - !Sub aws.partner/Rightsline.${Environment}.com
+          - !Sub aws.partner/Rightsline.${Environment_details}.com
       Targets:
         - Arn: !GetAtt RightslineLogGroup.Arn
           Id: RightslineTarget
   RightslineLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /aws/events/${RightslineEventBus}
+      LogGroupName: !Sub /aws/events/${Environment_details}
