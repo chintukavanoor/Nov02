@@ -30,4 +30,4 @@ jobs:
             --template-file testing14.yml \
             --stack-name rightsline-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
+            --parameter-overrides EventBusName=MyCustomEventBus Environment_details=$ENVIRONMENT
