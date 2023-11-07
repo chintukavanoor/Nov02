@@ -3,7 +3,7 @@
   "Parameters": {
     "Environment": {
       "Type": "String",
-      "Default": "stg",
+      "Default": "dev", 
       "AllowedValues": ["stg", "dev", "prd"],
       "Description": "Select the environment (stg, dev, prd)"
     }
