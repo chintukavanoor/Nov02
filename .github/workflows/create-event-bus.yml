@@ -1,7 +1,7 @@
 name: Create EventBridge Event Bus
 
 on:
-  pull_request:
+  pull_request: 
     branches:
       - main
       - develop
