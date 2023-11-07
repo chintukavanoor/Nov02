@@ -1,5 +1,5 @@
 name: Create EventBridge Event Bus
- 
+
 on:
   pull_request:
     branches:
@@ -25,16 +25,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 # Replace with your desired AWS region
 
-      - name: Set Environment Variable
-        run: |
-          echo "{\"Environment\":\"dev\"}" > parameters.json # Set the environment to 'stg', 'dev', or 'prd'
-        shell: bash
-
       - name: Deploy Event Bus
         run: |
           aws cloudformation deploy \
             --template-file testing14.yml \
             --stack-name rightsline-staging-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides Environment=$(cat parameters.json | jq -r .Environment) # Use the environment from the parameter file
-        shell: bash
+            --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
