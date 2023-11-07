@@ -5,7 +5,7 @@
       "Type": "String",
       "Description": "Select the environment (stg, dev, prd)",
       "AllowedValues": ["stg", "dev", "prd"],
-      "Default": "stg"
+      "Default": "dev"
     }
   },
   "Resources": {
