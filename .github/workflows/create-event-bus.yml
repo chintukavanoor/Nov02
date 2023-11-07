@@ -32,10 +32,13 @@ jobs:
             aws_access_key_id="${{ secrets.AWS_PRD_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_PRD_SECRET_ACCESS_KEY }}"
 
-          else
+          elif [ "$environment" == 'dev']; then
             echo "Setting up AWS credentials for DEV environment"
             aws_access_key_id="${{ secrets.AWS_DEV_ACCESS_KEY_ID }}"
             aws_secret_access_key="${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}"
+          
+          else
+            echo "Environment does not belongs to stg, prd or dev"
 
           fi
           echo "AWS_ACCESS_KEY_ID=$aws_access_key_id" >> $GITHUB_ENV
