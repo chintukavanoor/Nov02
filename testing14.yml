@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
 Resources:
-  RightslineEventBus:  
+  RightslineEventBus:   
     Type: AWS::Events::EventBus
     Properties:
       EventSourceName: !Sub aws.partner/rightsline.com/${Environment_details}-div191-v4
