@@ -1,5 +1,4 @@
-name: Create EventBridge Event Bus
-
+name: Creating the Rightsline Infrastructure
 on:
   pull_request:
     branches:
@@ -13,9 +12,6 @@ on:
 jobs:
   create-event-bus:
     runs-on: ubuntu-latest
-
-    env:
-      EVENT_BUS_NAME: MyCustomEventBus # Replace with your desired event bus name
 
     steps:
       - name: Checkout code
@@ -32,6 +28,6 @@ jobs:
         run: |
           aws cloudformation deploy \
             --template-file testing14.yml \
-            --stack-name rightsline-staging-event-bus-stack \
+            --stack-name rightsline-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides EventBusName=$EVENT_BUS_NAME
+            --parameter-overrides EventBusName=MyCustomEventBus # Replace with your desired event bus name
