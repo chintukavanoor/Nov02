@@ -1,9 +1,14 @@
 name: Create EventBridge Event Bus
 
 on:
+  pull_request:
+    branches:
+      - main
+      - develop
   push:
     branches:
       - main
+      - develop
 
 jobs:
   create-event-bus:
@@ -20,29 +25,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 # Replace with your desired AWS region
 
-      - name: Read environment from environment.json
-        id: read-env
-        run: echo ::set-output name=Environment::$(jq -r '.Environment' environment.json)
-
-      - name: Select EventSourceName
-        id: select-event-source
+      - name: Set Environment Variable
         run: |
-          case "${{ steps.read-env.outputs.Environment }}" in
-            "stg")
-              echo "::set-output name=EventSourceName::aws.partner/rightsline.com/stg-div191-v4"
-              ;;
-            "dev")
-              echo "::set-output name=EventSourceName::aws.partner/rightsline.com/dev-div191-v4"
-              ;;
-            "prd")
-              echo "::set-output name=EventSourceName::aws.partner/rightsline.com/prd-div191-v4"
-              ;;
-          esac
+          echo "{\"Environment\":\"stg\"}" > parameters.json # Set the environment to 'stg', 'dev', or 'prd'
+        shell: bash
 
       - name: Deploy Event Bus
         run: |
           aws cloudformation deploy \
             --template-file testing14.yml \
-            --stack-name event-bus-stack \
+            --stack-name rightsline-staging-event-bus-stack \
             --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides Environment=${{ steps.read-env.outputs.Environment }} EventBusName=MyCustomEventBus EventSourceName=${{ steps.select-event-source.outputs.EventSourceName }}
+            --parameter-overrides Environment=$(cat parameters.json | jq -r .Environment) # Use the environment from the parameter file
+        shell: bash
